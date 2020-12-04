@@ -1,0 +1,90 @@
+#program_init:
+  # set rbo to the input array's start
+  rbo &auto__end
+
+in_loop:
+  # loop through the input array and get values
+  # should leave the rbo equal to its initial value
+  in ~0
+  rbo 1
+  out input
+  add input -1 input
+  eq input 0 loop_finished
+  jf loop_finished in_loop
+  rbo -200
+
+#part_1:
+part_1_loop_outer:
+  # Copy the current outer loop variable into a
+  @cpy ~0 a
+  out a
+  out part_1_outer
+  # Copy the loop counter into the inner loop counter
+  # so that the inner loop can run until the end of
+  # the input array
+  @cpy part_1_outer part_1_inner
+part_1_loop_inner:
+  # Copy the current inner loop variable into b
+  @cpy ~0 b
+  out b
+  out part_1_inner
+  # Calculate sum and product
+  add a b sum
+  mul a b prod
+  # Test if the sum is correct
+  eq sum 2020 loop_finished
+  # If the loop is finished, fix the rbo then jump to
+  # the end, otherwise continue the loop
+  jt loop_finished clean_up
+  # Loop continuing, so increment RBO
+  rbo 1
+  # Decrement the loop counter
+  add part_1_inner 1 part_1_inner
+  # If the loop counter != 0
+  eq part_1_inner 0 loop_finished
+  # Return to the top of the inner loop
+  jf loop_finished part_1_loop_inner
+  # Otherwise, offset RBO to return to the
+  # correct place in the outer loop
+  rbo part_1_outer
+  # Increment RBO and decrement loop counter
+  rbo 1
+  add part_1_outer 1 part_1_outer
+  # If the loop counter != 0
+  eq part_1_outer 0 loop_finished
+  # Return to the top of the outer loop
+  jf loop_finished part_1_loop_outer
+  # Otherise, allow the cleanup code to finish the loop
+  # this shouldn't be reached and will print garbage data
+clean_up:
+  # Reset the RBO from the inner loop
+  rbo part_1_inner
+  # Reset the RBO from the outer loop
+  add part_1_inner -200 tmp
+  rbo tmp
+#part_1_end:
+  out prod
+
+
+#end:
+  hlt
+
+#variables:
+  @raw input:200
+  @raw loop_finished:0
+
+  @raw part_1_outer:-200
+  @raw part_1_inner:-200
+
+  #@raw part_2_outer:-200
+  #@raw part_2_middle:-200
+  #@raw part_2_inner:-200
+
+  @raw a:0
+  @raw b:0
+  #@raw c:0
+
+  @raw sum:0
+  @raw prod:1
+
+  @raw tmp:0

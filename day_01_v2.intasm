@@ -1,0 +1,12 @@
+outer:
+  # index the list once
+  rbo ptr_1
+  @cpy ~0 val_1
+  mul -1 ptr_1 rbo_1
+  rbo rbo_1
+inner:
+  # index it again
+  rbo ptr_2
+  @cpy ~0 val_2
+  mul -1 ptr_2 rbo_2
+  rbo rbo_2
