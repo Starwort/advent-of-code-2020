@@ -10,3 +10,18 @@ inner:
   @cpy ~0 val_2
   mul -1 ptr_2 rbo_2
   rbo rbo_2
+
+
+  hlt
+
+# Variables
+  @raw ptr_1:&auto__end
+  @raw ptr_2:&auto__end
+  @raw ptr_3:&auto__end
+  @raw input_start:&auto__end
+  @raw val_1:0
+  @raw val_2:0
+  @raw val_3:0
+  @raw rbo_1:0
+  @raw rbo_2:0
+  @raw rbo_3:0
