@@ -2,7 +2,7 @@ import string
 
 import aoc_helper
 
-raw = aoc_helper.day(6)
+raw = aoc_helper.fetch(6)
 # print(raw)
 
 
@@ -33,5 +33,5 @@ def part_two():
     return sum(map(len, parse_raw_2()))
 
 
-aoc_helper.submit(day=6, solution=part_one)
-aoc_helper.submit(day=6, solution=part_two)
+aoc_helper.lazy_submit(day=6, solution=part_one)
+aoc_helper.lazy_submit(day=6, solution=part_two)

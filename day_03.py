@@ -1,6 +1,6 @@
 import aoc_helper
 
-raw = aoc_helper.day(3)
+raw = aoc_helper.fetch(3)
 # print(raw)
 
 
@@ -43,5 +43,5 @@ def part_two():
     )
 
 
-aoc_helper.submit(day=3, solution=part_one)
-aoc_helper.submit(day=3, solution=part_two)
+aoc_helper.lazy_submit(day=3, solution=part_one)
+aoc_helper.lazy_submit(day=3, solution=part_two)

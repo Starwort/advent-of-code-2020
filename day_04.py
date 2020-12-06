@@ -6,7 +6,7 @@ HEIGHT = re.compile(r"(\d+)(cm|in)")
 COLOUR = re.compile(r"#[0-9a-f]{6}")
 PID = re.compile(r"\d{9}")
 
-raw = aoc_helper.day(4)
+raw = aoc_helper.fetch(4)
 # print(raw)
 FIELDS = {"byr", "iyr", "eyr", "hgt", "hcl", "ecl", "pid"}
 
@@ -60,5 +60,5 @@ def part_two():
     return valid
 
 
-aoc_helper.submit(day=4, solution=part_one)
-aoc_helper.submit(day=4, solution=part_two)
+aoc_helper.lazy_submit(day=4, solution=part_one)
+aoc_helper.lazy_submit(day=4, solution=part_two)
