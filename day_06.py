@@ -22,5 +22,5 @@ def part_two():
     return sum(map(len, map(lambda i: set.intersection(*i), data)))
 
 
-aoc_helper.lazy_submit(day=6, solution=part_one)
-aoc_helper.lazy_submit(day=6, solution=part_two)
+aoc_helper.lazy_submit(day=6, year=2020, solution=part_one)
+aoc_helper.lazy_submit(day=6, year=2020, solution=part_two)

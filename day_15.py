@@ -19,5 +19,5 @@ def part_two():
     ...
 
 
-aoc_helper.lazy_submit(day=15, solution=part_one)
-aoc_helper.lazy_submit(day=15, solution=part_two)
+aoc_helper.lazy_submit(day=15, year=2020, solution=part_one)
+aoc_helper.lazy_submit(day=15, year=2020, solution=part_two)

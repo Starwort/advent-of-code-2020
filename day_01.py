@@ -26,5 +26,5 @@ def part_two():
                     return i * j * k
 
 
-aoc_helper.lazy_submit(day=1, solution=part_one)
-aoc_helper.lazy_submit(day=1, solution=part_two)
+aoc_helper.lazy_submit(day=1, year=2020, solution=part_one)
+aoc_helper.lazy_submit(day=1, year=2020, solution=part_two)

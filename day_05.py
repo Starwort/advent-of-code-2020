@@ -41,5 +41,5 @@ def part_two():
         last_id = id
 
 
-aoc_helper.lazy_submit(day=5, solution=part_one)
-aoc_helper.lazy_submit(day=5, solution=part_two)
+aoc_helper.lazy_submit(day=5, year=2020, solution=part_one)
+aoc_helper.lazy_submit(day=5, year=2020, solution=part_two)

@@ -33,5 +33,5 @@ def part_two():
     return valid
 
 
-aoc_helper.lazy_submit(day=2, solution=part_one)
-aoc_helper.lazy_submit(day=2, solution=part_two)
+aoc_helper.lazy_submit(day=2, year=2020, solution=part_one)
+aoc_helper.lazy_submit(day=2, year=2020, solution=part_two)
