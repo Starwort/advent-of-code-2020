@@ -1,16 +1,25 @@
-outer:
+get_input:
+  
+outer_1:
   # index the list once
   rbo ptr_1
   @cpy ~0 val_1
   mul -1 ptr_1 rbo_1
   rbo rbo_1
-inner:
+inner_1:
   # index it again
   rbo ptr_2
   @cpy ~0 val_2
   mul -1 ptr_2 rbo_2
   rbo rbo_2
 
+  # calculate sum and prod
+  add val_1 val_2 sum
+  mul val_1 val_2 prod
+
+  eq sum 2020 found
+  jt found out_1
+  
 
   hlt
 
@@ -22,6 +31,13 @@ inner:
   @raw val_1:0
   @raw val_2:0
   @raw val_3:0
+  @raw sum:0
+  @raw prod:0
+  @raw found:0
   @raw rbo_1:0
   @raw rbo_2:0
   @raw rbo_3:0
+  @raw in_ctr:0
+
+# Constants
+  @raw DATA_END:&auto__end
