@@ -1,5 +1,5 @@
-from collections import defaultdict
 import typing
+from collections import defaultdict
 
 
 class InfiniteTape:
@@ -153,6 +153,22 @@ class Computer:
 
 
 if __name__ == "__main__":
-    tape = input("Enter the program\n>>> ")
-    computer = Computer(tape)
+    import sys
+    from collections import deque
+
+    if len(sys.argv) >= 2:
+        prog_file = sys.argv[1]
+        with open(prog_file) as file:
+            tape = file.read()
+        if len(sys.argv) >= 3:
+            in_file = sys.argv[2]
+            with open(in_file) as file:
+                data = deque(map(int, file.read().splitlines()))
+            get_input = data.popleft
+        else:
+            get_input = lambda: int(input("Program is requesting input\n>>> "))
+    else:
+        tape = input("Enter the program\n>>> ")
+        get_input = lambda: int(input("Program is requesting input\n>>> "))
+    computer = Computer(tape, in_function=get_input)
     computer.run_until_complete()
