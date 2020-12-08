@@ -7,7 +7,7 @@ raw = aoc_helper.fetch(7)
 # print(raw)
 
 CONTAINS = re.compile(r"(.*?) bags contain (.*?)\.")
-BAG = re.compile(r"(\d+) (.*?) bags?")
+BAG = re.compile(r"((-|\+)?\d+(\.\d+)?) (.*?) bags?")
 NOT_CONTAIN = re.compile(r"(.*?) bags contain no other bags")
 
 
@@ -16,7 +16,7 @@ def parse_raw():
     inverse_rules = defaultdict(list)
     for bag, contains, *_ in CONTAINS.findall(raw):
         bags = BAG.findall(contains)
-        rules[bag] = [(int(bag_[0]), bag_[1]) for bag_ in bags]
+        rules[bag] = [(float(bag_[0]), bag_[1]) for bag_ in bags]
         for _, name in bags:
             inverse_rules[name].append(bag)
     for bag in NOT_CONTAIN.findall(raw):
@@ -41,7 +41,7 @@ def part_one():
 
 
 def contained_bags(bag: str) -> int:
-    return sum(n * contained_bags(t) for n, t in rules[bag]) + 1
+    return int(sum(n * contained_bags(t) for n, t in rules[bag]) + 1)
 
 
 def part_two():
