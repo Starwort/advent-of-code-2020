@@ -1,3 +1,6 @@
+import typing
+
+
 class Arg:
     def __init__(self, value: str) -> None:
         self._value = value
@@ -43,9 +46,16 @@ class HandheldGameConsole:
         self.last_instruction = opc
         getattr(self, opc)(*opr)
 
-    def run_until(self, opcode: str) -> None:
+    def run_until_opcode(self, opcode: str) -> None:
         self.step()  # ensure that we run at least one instruction
         while self.last_instruction != opcode and not self.halted:
+            self.step()
+
+    def run_until_condition(
+        self, condition: typing.Callable[["HandheldGameConsole"], bool]
+    ) -> None:
+        self.step()  # ensure that we run at least one instruction
+        while (not condition(self)) and not self.halted:
             self.step()
 
     def run_until_complete(self) -> None:

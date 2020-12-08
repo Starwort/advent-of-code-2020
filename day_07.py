@@ -8,7 +8,7 @@ raw = aoc_helper.fetch(7)
 
 CONTAINS = re.compile(r"(.*?) bags contain (.*?)\.")
 BAG = re.compile(r"(\d+) (.*?) bags?")
-NOT_CONTAIN = re.compile(r"(.*?) bags contain no other bags.")
+NOT_CONTAIN = re.compile(r"(.*?) bags contain no other bags\.")
 
 
 def parse_raw():
