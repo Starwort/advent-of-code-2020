@@ -4,6 +4,8 @@
 import pathlib
 import random
 
+import tqdm
+
 MODIFIERS = set(
     (pathlib.Path(__file__).parent / "modifiers.txt").read_text().splitlines()
 )
@@ -35,7 +37,7 @@ def random_amount() -> float:
 def generate_input() -> str:
     used_bags = set()
     rules_dict = {}
-    for bag in ALL_BAGS:
+    for bag in tqdm.tqdm(ALL_BAGS):
         contains = random.randint(0, len(used_bags))
         rules_dict[bag] = [
             (random_amount(), i) for i in random.sample(used_bags, contains)
