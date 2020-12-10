@@ -29,7 +29,7 @@ def format_rule(rule: tuple[str, list[tuple[float, str]]]) -> str:
 
 
 def random_amount() -> float:
-    ipart = random.randrange(-5000, 5000)
+    ipart = random.randrange(-50, 50)
     fpart = int(random.random() * 4) / 4
     return (ipart + (fpart or 0)) or 1
 

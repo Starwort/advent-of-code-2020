@@ -6,7 +6,6 @@ from collections import defaultdict
 import tqdm
 
 raw = (pathlib.Path(__file__).parent / "07.in").read_text()
-print("loaded")
 
 CONTAINS = re.compile(r"(.*?) bags contain (.*?)\.")
 BAG = re.compile(r"((-|\+)?\d+(\.\d+)?) (.*?) bags?")
