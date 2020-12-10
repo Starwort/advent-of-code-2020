@@ -30,12 +30,19 @@ def part_one():
 
 def part_two():
     solutions = [1 for _ in range(4)]
+    last = 0
     for i in tqdm(data):
+        for j in range(last, i):
+            solutions[j % 4] = 0
+        last = i
         solutions[(i + 1) % 4] += solutions[i % 4]
         solutions[(i + 2) % 4] += solutions[i % 4]
         solutions[(i + 3) % 4] += solutions[i % 4]
         solutions[i % 4] = 0
-    return solutions[(data[-1] + 3) % 4] % 10_000_000_000
+    answer = solutions[(data[-1] + 3) % 4]
+    while answer % 10 == 0:
+        answer //= 10
+    return answer % 10_000_000_000
 
 
 print(part_one())
