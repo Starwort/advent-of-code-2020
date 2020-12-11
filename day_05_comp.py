@@ -4,11 +4,25 @@ raw = aoc_helper.fetch(5, year=2020)
 # print(raw)
 
 
+def decode_seat(seat):
+    lower_y, upper_y = 0, 127
+    lower_x, upper_x = 0, 7
+    for char in seat:
+        mid_y = (upper_y + lower_y) // 2
+        mid_x = (upper_x + lower_x) // 2
+        if char == "F":
+            upper_y = mid_y
+        elif char == "B":
+            lower_y = mid_y
+        elif char == "L":
+            upper_x = mid_x
+        else:
+            lower_x = mid_x
+    return upper_x, upper_y
+
+
 def parse_raw():
-    return [
-        int(seat.translate(str.maketrans("FBLR", "0101")), 2)
-        for seat in raw.splitlines()
-    ]
+    return [decode_seat(seat) for seat in raw.splitlines()]
 
 
 data = parse_raw()
