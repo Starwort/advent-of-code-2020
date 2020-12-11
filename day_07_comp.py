@@ -1,4 +1,3 @@
-import functools
 import re
 from collections import defaultdict
 
@@ -7,23 +6,21 @@ import aoc_helper
 raw = aoc_helper.fetch(7, year=2020)
 # print(raw)
 
+CONTAINS = re.compile(r"(.*?) bags contain (.*?)\.")
 BAG = re.compile(r"(\d+) (.*?) bags?")
+NOT_CONTAIN = re.compile(r"(.*?) bags contain no other bags\.")
 
 
 def parse_raw():
-    rules = defaultdict(list)
+    rules = {}
     inverse_rules = defaultdict(list)
-    for line in raw.splitlines():
-        line: str = line.strip(".")
-        bag, contains = line.split(" bags contain ")
-        if contains == "no other bags":
-            rules[bag] = []
-        else:
-            bags = BAG.findall(contains)
-            for num, _, _, name in bags:
-                # print(name, end="\r")
-                rules[bag].append((int(float(num) * 4), name))
-                inverse_rules[name].append(bag)
+    for bag, contains, *_ in CONTAINS.findall(raw):
+        bags = BAG.findall(contains)
+        rules[bag] = [(int(bag_[0]), bag_[1]) for bag_ in bags]
+        for _, name in bags:
+            inverse_rules[name].append(bag)
+    for bag in NOT_CONTAIN.findall(raw):
+        rules[bag] = []
     return rules, inverse_rules
 
 
@@ -43,7 +40,6 @@ def part_one():
     return len(bags)
 
 
-@functools.cache
 def contained_bags(bag: str) -> int:
     return sum(n * contained_bags(t) for n, t in rules[bag]) + 1
 
