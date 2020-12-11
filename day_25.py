@@ -1,6 +1,6 @@
 import aoc_helper
 
-raw = aoc_helper.fetch(25)
+raw = aoc_helper.fetch(25, year=2020)
 print(raw)
 
 

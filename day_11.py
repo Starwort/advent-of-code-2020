@@ -1,22 +1,111 @@
+from copy import deepcopy
+
 import aoc_helper
 
-raw = aoc_helper.fetch(11)
-print(raw)
+raw = aoc_helper.fetch(11, year=2020)
+# print(raw)
+# raw = """L.LL.LL.LL
+# LLLLLLL.LL
+# L.L.L..L..
+# LLLL.LL.LL
+# L.LL.LL.LL
+# L.LLLLL.LL
+# ..L.L.....
+# LLLLLLLLLL
+# L.LLLLLL.L
+# L.LLLLL.LL"""
 
 
 def parse_raw():
-    ...
+    return [
+        ["L", *["L" for _ in raw.splitlines()[0]], "L"],
+        *[["L", *[i for i in row], "L"] for row in raw.splitlines()],
+        ["L", *["L" for _ in raw.splitlines()[0]], "L"],
+    ]
 
 
 data = parse_raw()
 
 
+def life(state):
+    next_state = deepcopy(state)
+    for y, row in enumerate(state[1:-1], start=1):
+        for x, cell in enumerate(row[1:-1], start=1):
+            if (
+                cell == "L"
+                and (
+                    (state[y - 1][x - 1] == "#")
+                    + (state[y - 1][x] == "#")
+                    + (state[y - 1][x + 1] == "#")
+                    + (state[y][x - 1] == "#")
+                    + (state[y][x + 1] == "#")
+                    + (state[y + 1][x - 1] == "#")
+                    + (state[y + 1][x] == "#")
+                    + (state[y + 1][x + 1] == "#")
+                )
+                == 0
+            ):
+                next_state[y][x] = "#"
+            elif (
+                cell == "#"
+                and (
+                    (state[y - 1][x - 1] == "#")
+                    + (state[y - 1][x] == "#")
+                    + (state[y - 1][x + 1] == "#")
+                    + (state[y][x - 1] == "#")
+                    + (state[y][x + 1] == "#")
+                    + (state[y + 1][x - 1] == "#")
+                    + (state[y + 1][x] == "#")
+                    + (state[y + 1][x + 1] == "#")
+                )
+                >= 4
+            ):
+                next_state[y][x] = "L"
+    return next_state
+
+
+def get_visible(dy, dx, state, y, x):
+    x += dx
+    y += dy
+    while state[y][x] == ".":
+        x += dx
+        y += dy
+    return state[y][x]
+
+
+def life_2(state):
+    next_state = deepcopy(state)
+    for y, row in enumerate(state[1:-1], start=1):
+        for x, cell in enumerate(row[1:-1], start=1):
+            visible = [
+                get_visible(dy, dx, state, y, x)
+                for dy in range(-1, 2)
+                for dx in range(-1, 2)
+                if not (dy == dx == 0)
+            ]
+            if cell == "L" and sum(cell == "#" for cell in visible) == 0:
+                next_state[y][x] = "#"
+            elif cell == "#" and sum(cell == "#" for cell in visible) >= 5:
+                next_state[y][x] = "L"
+    return next_state
+
+
+def print_board(board):
+    print("\n".join("".join(row[1:-1]) for row in board[1:-1]))
+
+
 def part_one():
-    ...
+    state = data
+    while (next_state := life(state)) != state:
+        state = next_state
+    return "\n".join("".join(row[1:-1]) for row in state[1:-1]).count("#")
 
 
 def part_two():
-    ...
+    state = data
+    while (next_state := life_2(state)) != state:
+        state = next_state
+    return "\n".join("".join(row[1:-1]) for row in state[1:-1]).count("#")
 
 
 aoc_helper.lazy_submit(day=11, year=2020, solution=part_one)

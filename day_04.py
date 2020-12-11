@@ -6,7 +6,7 @@ HEIGHT = re.compile(r"(\d+)(cm|in)")
 COLOUR = re.compile(r"#[0-9a-f]{6}")
 PID = re.compile(r"\d{9}")
 
-raw = aoc_helper.fetch(4)
+raw = aoc_helper.fetch(4, year=2020)
 # print(raw)
 FIELDS = {"byr", "iyr", "eyr", "hgt", "hcl", "ecl", "pid"}
 

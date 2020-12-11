@@ -2,7 +2,7 @@ import string
 
 import aoc_helper
 
-raw = aoc_helper.fetch(6)
+raw = aoc_helper.fetch(6, year=2020)
 # print(raw)
 
 

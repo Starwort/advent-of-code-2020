@@ -2,7 +2,7 @@ import pathlib
 
 from tqdm import tqdm
 
-# raw = aoc_helper.fetch(10)
+# raw = aoc_helper.fetch(10,year=2020)
 raw = (pathlib.Path(__file__).parent / "10.in").read_text()
 # print(raw)
 

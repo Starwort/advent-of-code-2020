@@ -3,7 +3,7 @@ from collections import defaultdict
 
 import aoc_helper
 
-raw = aoc_helper.fetch(7)
+raw = aoc_helper.fetch(7, year=2020)
 # print(raw)
 
 CONTAINS = re.compile(r"(.*?) bags contain (.*?)\.")
