@@ -27,7 +27,7 @@ def parse_raw():
 data = parse_raw()
 
 
-def life(state, visibility_fn):
+def life(state, visibility_fn, neighbour_constant):
     next_state = deepcopy(state)
     for y, row in enumerate(state[1:-1], start=1):
         for x, cell in enumerate(row[1:-1], start=1):
@@ -39,7 +39,10 @@ def life(state, visibility_fn):
             ]
             if cell == "L" and sum(cell == "#" for cell in visible) == 0:
                 next_state[y][x] = "#"
-            elif cell == "#" and sum(cell == "#" for cell in visible) >= 5:
+            elif (
+                cell == "#"
+                and sum(cell == "#" for cell in visible) >= neighbour_constant
+            ):
                 next_state[y][x] = "L"
     return next_state
 
@@ -59,19 +62,19 @@ def get_visible_2(dy, dx, state, y, x):
     return state[y][x]
 
 
-def run_with(visibility_fn):
+def run_with(visibility_fn, neighbour_constant):
     state = data
-    while (next_state := life(state, visibility_fn)) != state:
+    while (next_state := life(state, visibility_fn, neighbour_constant)) != state:
         state = next_state
     return "\n".join("".join(row[1:-1]) for row in state[1:-1]).count("#")
 
 
 def part_one():
-    return run_with(get_visible)
+    return run_with(get_visible, 4)
 
 
 def part_two():
-    return run_with(get_visible_2)
+    return run_with(get_visible_2, 5)
 
 
 aoc_helper.lazy_submit(day=11, year=2020, solution=part_one)
