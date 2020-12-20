@@ -117,7 +117,9 @@ Tile 3079:
 def parse_raw():
     tiles = raw.split("\n\n")
     return dict(
-        (int(tile.splitlines()[0][5:-1]), tile.splitlines()[1:]) for tile in tiles
+        (int(tile.splitlines()[0][5:-1]), tile.splitlines()[1:])
+        # (int(tile.splitlines()[0][5:-1]), list(map(list, tile.splitlines()[1:])))
+        for tile in tiles
     )
 
 
@@ -212,6 +214,7 @@ def monsters(im):
             ):
                 continue
             monsters += 1
+    # print(monsters, hashes)
     return monsters, hashes - monsters * 15
 
 
@@ -245,6 +248,10 @@ def part_two():
                     used |= poss
                     continue
     image = []
+    # my program calculates the transpose of the sample so I'm just going to flip it
+    grid = [list(column) for column in zip(*grid)]
+    for row in grid:
+        print(*row)
     for y in grid:
         l_idx = get(y[0])
         c_idx = get(y[1])
@@ -311,8 +318,14 @@ def part_two():
         if c_top == edge:
             processed_image.extend(current[1:-1])
             edge = c_bottom
+        elif c_top == edge[::-1]:
+            processed_image.extend(flip_x(current[1:-1]))
+            edge = c_bottom
+        elif c_bottom == edge:
+            processed_image.extend(flip_y(current)[1:-1])
+            edge = c_top
         else:
-            processed_image.extend(current[::-1][1:-1])
+            processed_image.extend(flip_x(flip_y(current)[1:-1]))
             edge = c_top
     # this doesn't work - processed_image is wrong here
     #     processed_image = [
