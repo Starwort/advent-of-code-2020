@@ -5,113 +5,113 @@ import aoc_helper
 
 raw = aoc_helper.fetch(20, year=2020)
 # print(raw)
-raw = """Tile 2311:
-..##.#..#.
-##..#.....
-#...##..#.
-####.#...#
-##.##.###.
-##...#.###
-.#.#.#..##
-..#....#..
-###...#.#.
-..###..###
+# raw = """Tile 2311:
+# ..##.#..#.
+# ##..#.....
+# #...##..#.
+# ####.#...#
+# ##.##.###.
+# ##...#.###
+# .#.#.#..##
+# ..#....#..
+# ###...#.#.
+# ..###..###
 
-Tile 1951:
-#.##...##.
-#.####...#
-.....#..##
-#...######
-.##.#....#
-.###.#####
-###.##.##.
-.###....#.
-..#.#..#.#
-#...##.#..
+# Tile 1951:
+# #.##...##.
+# #.####...#
+# .....#..##
+# #...######
+# .##.#....#
+# .###.#####
+# ###.##.##.
+# .###....#.
+# ..#.#..#.#
+# #...##.#..
 
-Tile 1171:
-####...##.
-#..##.#..#
-##.#..#.#.
-.###.####.
-..###.####
-.##....##.
-.#...####.
-#.##.####.
-####..#...
-.....##...
+# Tile 1171:
+# ####...##.
+# #..##.#..#
+# ##.#..#.#.
+# .###.####.
+# ..###.####
+# .##....##.
+# .#...####.
+# #.##.####.
+# ####..#...
+# .....##...
 
-Tile 1427:
-###.##.#..
-.#..#.##..
-.#.##.#..#
-#.#.#.##.#
-....#...##
-...##..##.
-...#.#####
-.#.####.#.
-..#..###.#
-..##.#..#.
+# Tile 1427:
+# ###.##.#..
+# .#..#.##..
+# .#.##.#..#
+# #.#.#.##.#
+# ....#...##
+# ...##..##.
+# ...#.#####
+# .#.####.#.
+# ..#..###.#
+# ..##.#..#.
 
-Tile 1489:
-##.#.#....
-..##...#..
-.##..##...
-..#...#...
-#####...#.
-#..#.#.#.#
-...#.#.#..
-##.#...##.
-..##.##.##
-###.##.#..
+# Tile 1489:
+# ##.#.#....
+# ..##...#..
+# .##..##...
+# ..#...#...
+# #####...#.
+# #..#.#.#.#
+# ...#.#.#..
+# ##.#...##.
+# ..##.##.##
+# ###.##.#..
 
-Tile 2473:
-#....####.
-#..#.##...
-#.##..#...
-######.#.#
-.#...#.#.#
-.#########
-.###.#..#.
-########.#
-##...##.#.
-..###.#.#.
+# Tile 2473:
+# #....####.
+# #..#.##...
+# #.##..#...
+# ######.#.#
+# .#...#.#.#
+# .#########
+# .###.#..#.
+# ########.#
+# ##...##.#.
+# ..###.#.#.
 
-Tile 2971:
-..#.#....#
-#...###...
-#.#.###...
-##.##..#..
-.#####..##
-.#..####.#
-#..#.#..#.
-..####.###
-..#.#.###.
-...#.#.#.#
+# Tile 2971:
+# ..#.#....#
+# #...###...
+# #.#.###...
+# ##.##..#..
+# .#####..##
+# .#..####.#
+# #..#.#..#.
+# ..####.###
+# ..#.#.###.
+# ...#.#.#.#
 
-Tile 2729:
-...#.#.#.#
-####.#....
-..#.#.....
-....#..#.#
-.##..##.#.
-.#.####...
-####.#.#..
-##.####...
-##..#.##..
-#.##...##.
+# Tile 2729:
+# ...#.#.#.#
+# ####.#....
+# ..#.#.....
+# ....#..#.#
+# .##..##.#.
+# .#.####...
+# ####.#.#..
+# ##.####...
+# ##..#.##..
+# #.##...##.
 
-Tile 3079:
-#.#.#####.
-.#..######
-..#.......
-######....
-####.#..#.
-.#...#.##.
-#.#####.##
-..#.###...
-..#.......
-..#.###..."""
+# Tile 3079:
+# #.#.#####.
+# .#..######
+# ..#.......
+# ######....
+# ####.#..#.
+# .#...#.##.
+# #.#####.##
+# ..#.###...
+# ..#.......
+# ..#.###..."""
 
 
 def parse_raw():
@@ -262,11 +262,11 @@ def part_two():
         left_edge = "".join(i[0] for i in tile)
         right_edge = "".join(i[-1] for i in tile)
         if top_edge in shared_side:
-            tile = [[tile[x][~y] for x in range(len(tile))] for y in range(len(tile))]
+            tile = flip_x(rotate(tile))
         if bottom_edge in shared_side:
-            tile = [[tile[x][y] for x in range(len(tile))] for y in range(len(tile))]
+            tile = rotate(tile)
         if left_edge in shared_side:
-            tile = [[tile[y][~x] for x in range(len(tile))] for y in range(len(tile))]
+            tile = flip_x(tile)
         edge = "".join(i[-1] for i in tile)
         row = [tile]
         for last, current in zip(y, y[1:]):
@@ -279,23 +279,19 @@ def part_two():
             left_edge = "".join(i[0] for i in tile)
             right_edge = "".join(i[-1] for i in tile)
             if top_edge in shared_side:
-                tile = [
-                    [tile[x][y] for x in range(len(tile))] for y in range(len(tile))
-                ]
+                tile = rotate(tile)
             if bottom_edge in shared_side:
-                tile = [
-                    [tile[x][~y] for x in range(len(tile))] for y in range(len(tile))
-                ]
+                tile = flip_x(rotate(tile))
             if right_edge in shared_side:
-                tile = [
-                    [tile[y][~x] for x in range(len(tile))] for y in range(len(tile))
-                ]
+                tile = flip_x(tile)
             my_edge = "".join(i[0] for i in tile)
+            my_right_edge = "".join(i[-1] for i in tile)
             if my_edge == edge:
                 row.append(tile)
+                edge = my_right_edge
             else:
                 row.append(tile[::-1])
-                edge = my_edge
+                edge = my_right_edge[::-1]
         processed_row = [[] for i in row[0]]
         for tile in row:
             for prow, trow in zip(processed_row, tile):
@@ -318,15 +314,15 @@ def part_two():
         if c_top == edge:
             processed_image.extend(current[1:-1])
             edge = c_bottom
-        elif c_top == edge[::-1]:
-            processed_image.extend(flip_x(current[1:-1]))
-            edge = c_bottom
+        # elif c_top == edge[::-1]:
+        #     processed_image.extend(flip_x(current[1:-1]))
+        #     edge = c_bottom
         elif c_bottom == edge:
             processed_image.extend(flip_y(current)[1:-1])
             edge = c_top
-        else:
-            processed_image.extend(flip_x(flip_y(current)[1:-1]))
-            edge = c_top
+        # else:
+        #     processed_image.extend(flip_x(flip_y(current)[1:-1]))
+        #     edge = c_top
     # this doesn't work - processed_image is wrong here
     #     processed_image = [
     #         list(row)
