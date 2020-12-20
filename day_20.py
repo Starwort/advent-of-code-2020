@@ -4,122 +4,12 @@ from math import prod
 import aoc_helper
 
 raw = aoc_helper.fetch(20, year=2020)
-# print(raw)
-# raw = """Tile 2311:
-# ..##.#..#.
-# ##..#.....
-# #...##..#.
-# ####.#...#
-# ##.##.###.
-# ##...#.###
-# .#.#.#..##
-# ..#....#..
-# ###...#.#.
-# ..###..###
-
-# Tile 1951:
-# #.##...##.
-# #.####...#
-# .....#..##
-# #...######
-# .##.#....#
-# .###.#####
-# ###.##.##.
-# .###....#.
-# ..#.#..#.#
-# #...##.#..
-
-# Tile 1171:
-# ####...##.
-# #..##.#..#
-# ##.#..#.#.
-# .###.####.
-# ..###.####
-# .##....##.
-# .#...####.
-# #.##.####.
-# ####..#...
-# .....##...
-
-# Tile 1427:
-# ###.##.#..
-# .#..#.##..
-# .#.##.#..#
-# #.#.#.##.#
-# ....#...##
-# ...##..##.
-# ...#.#####
-# .#.####.#.
-# ..#..###.#
-# ..##.#..#.
-
-# Tile 1489:
-# ##.#.#....
-# ..##...#..
-# .##..##...
-# ..#...#...
-# #####...#.
-# #..#.#.#.#
-# ...#.#.#..
-# ##.#...##.
-# ..##.##.##
-# ###.##.#..
-
-# Tile 2473:
-# #....####.
-# #..#.##...
-# #.##..#...
-# ######.#.#
-# .#...#.#.#
-# .#########
-# .###.#..#.
-# ########.#
-# ##...##.#.
-# ..###.#.#.
-
-# Tile 2971:
-# ..#.#....#
-# #...###...
-# #.#.###...
-# ##.##..#..
-# .#####..##
-# .#..####.#
-# #..#.#..#.
-# ..####.###
-# ..#.#.###.
-# ...#.#.#.#
-
-# Tile 2729:
-# ...#.#.#.#
-# ####.#....
-# ..#.#.....
-# ....#..#.#
-# .##..##.#.
-# .#.####...
-# ####.#.#..
-# ##.####...
-# ##..#.##..
-# #.##...##.
-
-# Tile 3079:
-# #.#.#####.
-# .#..######
-# ..#.......
-# ######....
-# ####.#..#.
-# .#...#.##.
-# #.#####.##
-# ..#.###...
-# ..#.......
-# ..#.###..."""
 
 
 def parse_raw():
     tiles = raw.split("\n\n")
     return dict(
-        (int(tile.splitlines()[0][5:-1]), tile.splitlines()[1:])
-        # (int(tile.splitlines()[0][5:-1]), list(map(list, tile.splitlines()[1:])))
-        for tile in tiles
+        (int(tile.splitlines()[0][5:-1]), tile.splitlines()[1:]) for tile in tiles
     )
 
 
@@ -169,8 +59,6 @@ def get_data():
         for neighbour in edges[right_edge[::-1]]:
             neighbours[neighbour].add(id)
         edges[right_edge[::-1]].add(id)
-
-    # print(neighbours, edges)
     corners = [k for k, v in neighbours.items() if len(v) == 2]
     return edges, neighbours, corners
 
@@ -214,7 +102,6 @@ def monsters(im):
             ):
                 continue
             monsters += 1
-    # print(monsters, hashes)
     return monsters, hashes - monsters * 15
 
 
@@ -248,10 +135,6 @@ def part_two():
                     used |= poss
                     continue
     image = []
-    # my program calculates the transpose of the sample so I'm just going to flip it
-    grid = [list(column) for column in zip(*grid)]
-    for row in grid:
-        print(*row)
     for y in grid:
         l_idx = get(y[0])
         c_idx = get(y[1])
@@ -314,44 +197,9 @@ def part_two():
         if c_top == edge:
             processed_image.extend(current[1:-1])
             edge = c_bottom
-        # elif c_top == edge[::-1]:
-        #     processed_image.extend(flip_x(current[1:-1]))
-        #     edge = c_bottom
-        elif c_bottom == edge:
+        else:  # this doesn't work for malformed inputs but why should it
             processed_image.extend(flip_y(current)[1:-1])
             edge = c_top
-        # else:
-        #     processed_image.extend(flip_x(flip_y(current)[1:-1]))
-        #     edge = c_top
-    # this doesn't work - processed_image is wrong here
-    #     processed_image = [
-    #         list(row)
-    #         for row in """.#.#..#.##...#.##..#####
-    # ###....#.#....#..#......
-    # ##.##.###.#.#..######...
-    # ###.#####...#.#####.#..#
-    # ##.#....#.##.####...#.##
-    # ...########.#....#####.#
-    # ....#..#...##..#.#.###..
-    # .####...#..#.....#......
-    # #..#.##..#..###.#.##....
-    # #.####..#.####.#.#.###..
-    # ###.#.#...#.######.#..##
-    # #.####....##..########.#
-    # ##..##.#...#...#.#.#.#..
-    # ...#..#..#.#.##..###.###
-    # .#.#....#.##.#...###.##.
-    # ###.#...#..#.##.######..
-    # .#.#.###.##.##.#..#.##..
-    # .####.###.#...###.#..#.#
-    # ..#.#..#..#.#.#.####.###
-    # #..####...#.#.#.###.###.
-    # #####..#####...###....##
-    # #.##..#..#...#..####...#
-    # .#.###..##..##..####.##.
-    # ...###...##...#...#..###""".splitlines()
-    #     ]
-    print("\n".join("".join(row) for row in processed_image))
     results = {}
     results[result[0]] = (result := monsters(processed_image))[1]
     results[result[0]] = (result := monsters(flip_y(processed_image)))[1]
@@ -363,10 +211,8 @@ def part_two():
     results[result[0]] = (result := monsters(flip_x(flip_y(rotate(processed_image)))))[
         1
     ]
-    # print(results)
     return results[max(results)]
 
 
-print(part_two())
-# aoc_helper.lazy_submit(day=20, year=2020, solution=part_one)
-# aoc_helper.lazy_submit(day=20, year=2020, solution=part_two)
+aoc_helper.lazy_submit(day=20, year=2020, solution=part_one)
+aoc_helper.lazy_submit(day=20, year=2020, solution=part_two)
